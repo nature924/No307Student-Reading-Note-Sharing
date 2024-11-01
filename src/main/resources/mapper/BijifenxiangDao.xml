@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.BijifenxiangDao">
+
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.entity.BijifenxiangEntity" id="bijifenxiangMap">
+ <result property="bijimingcheng" column="bijimingcheng"/>
+ <result property="bijileixing" column="bijileixing"/>
+ <result property="bijibiaoqian" column="bijibiaoqian"/>
+ <result property="bijitupian" column="bijitupian"/>
+ <result property="bijineirong" column="bijineirong"/>
+ <result property="fenxiangriqi" column="fenxiangriqi"/>
+ <result property="yonghuming" column="yonghuming"/>
+ <result property="youxiang" column="youxiang"/>
+ <result property="sfsh" column="sfsh"/>
+ <result property="shhf" column="shhf"/>
+ <result property="thumbsupnum" column="thumbsupnum"/>
+ <result property="crazilynum" column="crazilynum"/>
+</resultMap>
+
+	<select id="selectListVO"
+		resultType="com.entity.vo.BijifenxiangVO" >
+		SELECT * FROM bijifenxiang  bijifenxiang         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.entity.vo.BijifenxiangVO" >
+		SELECT  bijifenxiang.* FROM bijifenxiang  bijifenxiang 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.entity.view.BijifenxiangView" >
+
+		SELECT  bijifenxiang.* FROM bijifenxiang  bijifenxiang 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.entity.view.BijifenxiangView" >
+		SELECT * FROM bijifenxiang  bijifenxiang <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+
+    <select id="selectValue" resultType="map" >
+        SELECT ${params.xColumn}, sum(${params.yColumn}) total FROM bijifenxiang
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.xColumn}
+    </select>
+
+    <select id="selectTimeStatValue" resultType="map" >
+        <if test = 'params.timeStatType == "日"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m-%d') ${params.xColumn}, sum(${params.yColumn}) total FROM bijifenxiang
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m-%d')
+        </if>
+        <if test = 'params.timeStatType == "月"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m') ${params.xColumn}, sum(${params.yColumn}) total FROM bijifenxiang
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m')
+        </if>
+        <if test = 'params.timeStatType == "年"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y') ${params.xColumn}, sum(${params.yColumn}) total FROM bijifenxiang
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y')
+        </if>
+    </select>
+
+    <select id="selectGroup" resultType="map" >
+        SELECT ${params.column} , count(1) total FROM bijifenxiang
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.column}
+    </select>
+</mapper>
